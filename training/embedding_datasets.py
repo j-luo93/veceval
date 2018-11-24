@@ -32,8 +32,9 @@ def convert_windows_to_dataset(windows, embeddings, has_caps=False):
         embedding = lookup(word.lower(), embeddings)
         embedding_list.append(np.concatenate([embedding,
                                               eye[caps_feature(word)]]))
-      dataset_list.append(np.array(embedding_list).reshape(reshape_shape))
-    return np.array(dataset_list)
+      dataset_list.append(np.array(embedding_list, dtype='float16').reshape(reshape_shape))
+    #return dataset_list
+    return np.stack(dataset_list, axis=0)
   else:
     reshape_shape = (dummy_embedding.shape[0] * WINDOW_SIZE, )
     for (i, window) in enumerate(windows):

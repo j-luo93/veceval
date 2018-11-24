@@ -4,7 +4,7 @@ import pickle
 import re
 import sys
 import keras
-from keras.optimizers import Adagrad, Adadelta, RMSprop
+from keras.optimizers import Adagrad, Adadelta, RMSprop, Adam
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.utils.np_utils import categorical_probas_to_classes
 from sklearn.metrics import f1_score
@@ -27,15 +27,15 @@ IS_TESTING = False
 
 # General hyperparameters
 DROPOUT_PROB = 0.5
-EMBEDDING_SIZE = 50
-HIDDEN_SIZE = 50
+EMBEDDING_SIZE = 650
+HIDDEN_SIZE = 250
 WINDOW_SIZE = 5
 CAPS_DIMS = 5
 STOP_EPOCHS = 15
 POS_STOP_EPOCHS = 10
-#MAX_EPOCHS = 500
-MAX_EPOCHS = 1
-BATCH_SIZE = 128
+MAX_EPOCHS = 50
+#MAX_EPOCHS = 1
+BATCH_SIZE = 64#128
 
 # Task-specific hyperparameters
 SENTIMENT_MAX_LEN = 50
@@ -46,7 +46,7 @@ QUESTIONS_CLASSES = 6
 CHUNK_CLASSES = 23
 POS_CLASSES = 12
 NLI_CLASSES = 5
-NER_CLASSES = 8
+NER_CLASSES = 9
 SENTIMENT_CLASSES = 2
 
 # String constants for Keras
@@ -86,12 +86,15 @@ class Hyperparams():
     # Optimization
     self.optimizer = hp["optimizer"]
     if "learning_rate" in hp:
+      #self.optimizer = Adam(lr=0.002)
       if self.optimizer == "Adagrad":
         self.optimizer = Adagrad(lr=float(hp["learning_rate"]))
       elif self.optimizer == "Adadelta":
         self.optimizer = Adadelta(lr=10.0*float(hp["learning_rate"]))
       elif self.optimizer == "RMSprop":
         self.optimizer = RMSprop(lr=float(hp["learning_rate"])/10.0)
+      #elif self.optimizer == "Adam":
+      #  self.optimizer = Adam(lr=float(hp["learning_rate"]))#/10.0)
 
     self.stop_epochs = None  # Fill in later
 
