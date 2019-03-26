@@ -65,9 +65,9 @@ python \
   $ROOTDIR"/embeddings/common_vocabulary.txt" \
   $PICKLES_HOME$EMBEDDING_NAME".pickle"
 
-for task in questions sentiment questions ner chunk nli pos
+for task in  sentiment questions ner chunk nli pos
 do
-  for with_backprop in finetuned fixed
+  for with_backprop in finetuned # fixed
   do
     TRAIN_SCRIPT=$ROOTDIR"/training/"$task"_"$with_backprop".py"
     CONFIG_FILE=$ROOTDIR"/training/configs/config_"$task"_"$with_backprop".txt"

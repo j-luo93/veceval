@@ -20,6 +20,9 @@ def main():
       #assert len(this_line) == 51
       word = this_line[0].lower()
       vector = np.array([float(x) for x in this_line[1:]])
+      # normalize
+      norm = np.linalg.norm(vector) + 1e-8
+      vector = vector / norm
       if word in common_vocabulary:
         embedding_dict[word] = vector
       else:
